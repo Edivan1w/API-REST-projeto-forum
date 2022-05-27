@@ -5,6 +5,7 @@ package br.com.curso.forun.controller;
 import java.net.URI;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -62,25 +63,39 @@ public class TopicosController {
 	}
 	//url dinamica
 	@GetMapping("/{id}")       //para indicar que a variável vem ba url
-	public DetalhesDoTopicoDto detalhar(@PathVariable Long id) {
-		Topico topico = topicoReposiry.findById(id).get();
-		DetalhesDoTopicoDto DetalhesDoTopicoDto = new DetalhesDoTopicoDto(topico);
+	public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id) {
+		Optional<Topico> optional = topicoReposiry.findById(id);
+		if(optional.isPresent()) {
+			return ResponseEntity.ok(new DetalhesDoTopicoDto(optional.get()));
+		}
 		
-		return DetalhesDoTopicoDto;
+		
+		return ResponseEntity.notFound().build();
 	}
 
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form){
-		Topico topico= form.atualizar(id, topicoReposiry);
+		Optional<Topico> optional = topicoReposiry.findById(id);
+		if(optional.isPresent()) {
+			Topico topico= form.atualizar(id, topicoReposiry);
+			return ResponseEntity.ok(new TopicoDto(topico));
+		}
 		
-		return ResponseEntity.ok(new TopicoDto(topico));
+		return ResponseEntity.notFound().build();
+		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id){
-		topicoReposiry.deleteById(id);
-		return ResponseEntity.ok().build();
+		Optional<Topico> optional = topicoReposiry.findById(id);
+		if(optional.isPresent()) {
+			topicoReposiry.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.notFound().build();
+		
 	}
 	
 	
