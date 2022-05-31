@@ -11,6 +11,11 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -42,12 +47,14 @@ public class TopicosController {
 	private CursoRepository cursoRepository;
 
 	@GetMapping
-	public List<TopicoDto> lista(String nomeCurso){
+	public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
+			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao){
+	
 		if(nomeCurso == null) {
-		List<Topico> topicos = topicoReposiry.findAll();
+		Page<Topico> topicos = topicoReposiry.findAll(paginacao);
 		return TopicoDto.converterEmDto(topicos);
 		}else {
-			List<Topico> topicos = topicoReposiry.findByCursoNome(nomeCurso);
+			Page<Topico> topicos = topicoReposiry.findByCursoNome(nomeCurso, paginacao);
 			return TopicoDto.converterEmDto(topicos);
 		}
 	}
