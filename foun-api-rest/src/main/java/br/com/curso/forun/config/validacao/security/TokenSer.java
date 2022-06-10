@@ -11,7 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-public class TokenService {
+public class TokenSer {
 	//anotação para indicar que a injeção será feita via application.porperties.
 	@Value("${forum.jwt.expiration}")
 	private String expiration;
@@ -26,6 +26,7 @@ public class TokenService {
 		Date hoje = new Date();
 		//pegar os milisegundos da variável hoje e somar.
 		Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
+		//Para criar o token JWT, devemos utilizar a classe Jwts;
 		return Jwts.builder()
 				//quem está gerando o token
 				.setIssuer("Sistema escola")

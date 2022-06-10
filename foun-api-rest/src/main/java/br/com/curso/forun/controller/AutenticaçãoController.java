@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.curso.forun.config.validacao.security.TokenService;
+import br.com.curso.forun.config.validacao.security.TokenSer;
+import br.com.curso.forun.controller.dto.TokenDto;
 import br.com.curso.forun.controller.form.FomLogin;
 
 @RestController
@@ -26,11 +27,11 @@ public class AutenticaçãoController {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private TokenService tokenService;
+	private TokenSer tokenService;
 
 	
 	@PostMapping
-	public ResponseEntity<?> autenticar(@RequestBody @Valid FomLogin login){
+	public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid FomLogin login){
 		//agora tem que chamar o método authenticate que irá receber o objeto que irá conter o login e senha.
 		UsernamePasswordAuthenticationToken dadosUsuario = login.converter();
 		//é preciso fazer um tratamento de erro para que se devolva 400
@@ -39,8 +40,8 @@ public class AutenticaçãoController {
 			Authentication authentication = authenticationManager.authenticate(dadosUsuario);
 			//antes de devolver o "OK" temos que gerar o token
 			String token = tokenService.gerarToken(authentication);
-			System.out.println(token);
-			return ResponseEntity.ok().build();
+			//precisamos usar o padrão dto para devolver o tolkem gerado e dizer para o cliente qual o tipo da autenticação no bearer.
+			return ResponseEntity.ok(new TokenDto(token, "Gearer"));
 			
 		} catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().build();
