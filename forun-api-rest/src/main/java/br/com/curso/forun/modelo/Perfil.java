@@ -36,6 +36,11 @@ public class Perfil implements GrantedAuthority {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	@Override
+	public String toString() {
+		return "Perfil [id=" + id + ", nome=" + nome + "]";
+	}
 	
 	
 	

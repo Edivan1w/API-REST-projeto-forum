@@ -68,5 +68,9 @@ public class Curso {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
+	@Override
+	public String toString() {
+		return "Curso [id=" + id + ", nome=" + nome + ", categoria=" + categoria + "]";
+	}
 
 }

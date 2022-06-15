@@ -96,4 +96,10 @@ public class Resposta {
 		this.solucao = solucao;
 	}
 
+	@Override
+	public String toString() {
+		return "Resposta [id=" + id + ", mensagem=" + mensagem + ", topico=" + topico + ", dataCriacao=" + dataCriacao
+				+ ", autor=" + autor + ", solucao=" + solucao + "]";
+	}
+
 }

@@ -38,8 +38,10 @@ import br.com.curso.forun.controller.form.TopicoForm;
 import br.com.curso.forun.modelo.Topico;
 import br.com.curso.forun.repository.CursoRepository;
 import br.com.curso.forun.repository.TopicoReposiry;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/topicos")
 public class TopicosController {
 	

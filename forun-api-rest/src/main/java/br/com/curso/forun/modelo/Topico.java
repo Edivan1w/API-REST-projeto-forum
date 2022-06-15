@@ -130,4 +130,11 @@ public class Topico {
 		this.respostas = respostas;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Topico [id=" + id + ", titulo=" + titulo + ", mensagem=" + mensagem + ", dataCriacao=" + dataCriacao
+				+ ", status=" + status + ", autor=" + autor + ", curso=" + curso + ", respostas=" + respostas + "]";
+	}
+
 }
