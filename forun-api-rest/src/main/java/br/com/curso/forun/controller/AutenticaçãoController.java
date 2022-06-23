@@ -3,6 +3,7 @@ package br.com.curso.forun.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import br.com.curso.forun.controller.form.FomLogin;
 
 @RestController
 @RequestMapping("/auth")
+@Profile("prod")
 public class AutenticaçãoController {
 	
 	@Autowired  //esta classe não faz ijeção de dependencia automaticamente, por isso tem que usar a 
