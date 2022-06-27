@@ -21,7 +21,7 @@ import br.com.curso.forun.controller.form.FomLogin;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("prod")
+@Profile(value = {"prod","test"})
 public class AutenticaçãoController {
 	
 	@Autowired  //esta classe não faz ijeção de dependencia automaticamente, por isso tem que usar a 
